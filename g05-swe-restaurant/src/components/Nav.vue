@@ -24,6 +24,7 @@
           >Login</a
         >
       </div>
+      <router-link to="/analytics">Analytics</router-link>
     </div>
   </nav>
   <nav class="bg-gray-50 dark:bg-gray-700">
