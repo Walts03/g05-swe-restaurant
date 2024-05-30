@@ -3,32 +3,24 @@
     <div
       class="flex items-center justify-between text-sm tracking-widest uppercase"
     >
-      <p
-        class="font-medium text-gray-700 dark:text-gray-700 focus:outline-none bg-transparent"
+      <router-link
+        target="_blank"
+        to="/addmenu"
+        class="block mt-10 w-40 px-4 py-3 font-medium tracking-wide text-center capitalize transition-colors duration-300 transform bg-[#FFC933] rounded-[14px] hover:bg-[#FFC933DD] focus:outline-none focus:ring focus:ring-teal-300 focus:ring-opacity-80"
       >
-        6 Items
-      </p>
-      <div class="flex items-center">
-        <p class="font-medium text-gray-500 dark:text-black">Sort</p>
-        <select
-          class="font-medium text-gray-700 bg-transparent dark:text-gray-500 focus:outline-none"
-        >
-          <option value="#">Recommended</option>
-          <option value="#">Size</option>
-          <option value="#">Price</option>
-        </select>
-      </div>
+        Add Item
+      </router-link>
     </div>
     <div
       class="grid grid-cols-1 gap-8 mt-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3"
     >
-      <Foodcard
+      <FoodcardOrders
         v-for="item in paginatedItems"
         :key="item.id"
         :title="item.title"
         :price="item.price"
         :description="item.description"
-      ></Foodcard>
+      ></FoodcardOrders>
     </div>
     <!-- Pagination Controls -->
     <div class="flex justify-center space-x-2 mt-4">
@@ -71,9 +63,8 @@
   </div>
   <Footerview></Footerview>
 </template>
-
 <script setup>
-import Foodcard from "../components/Foodcard.vue";
+import FoodcardOrders from "./FoodcardOrders.vue";
 import Footerview from "../components/Footer.vue";
 import { ref, computed } from "vue";
 

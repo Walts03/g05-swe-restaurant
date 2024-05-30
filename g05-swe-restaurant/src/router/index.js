@@ -1,6 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Default from "../components/Default.vue";
 import Homepage from "../views/Homepage.vue";
+import MenuItems from "../components/MenuItems.vue";
+import AddMenuItem from "../components/AddMenuItem.vue";
+import EditItem from "../components/EditItem.vue";
+import Cart from "../components/Cart.vue";
 
 import Analytics from "../views/Analytics.vue";
 
@@ -9,25 +13,49 @@ import SignUp from "../views/SignUp.vue";
 
 import { notify } from "@kyvg/vue3-notification";
 
+
 const routes = [
   {
-		path: "/",
-		component: Default,
-		children: [
-			{
-				path: "/",
-				name: "Homepage",
-				component: Homepage,
-			},
-			{
-				path: "analytics",
-				name: "Analytics",
-				component: Analytics,
+    path: "/",
+    component: Default,
+    children: [
+      {
+        path: "/",
+        name: "Homepage",
+        component: Homepage,
+      },
+      {
+        path: "/analytics",
+        name: "Analytics",
+        component: Analytics,
 				meta: { requiresAdmin: true },
-			},
-		],
+      },
+      {
+        path: "/menuitems",
+        name: "MenuItems",
+        component: MenuItems,
+				meta: { requiresAdmin: true },
+      },
+      {
+        path: "/addmenu",
+        name: "AddMenuItem",
+        component: AddMenuItem,
+				meta: { requiresAdmin: true },
+      },
+      {
+        path: "/edititem",
+        name: "EditItem",
+        component: EditItem,
+				meta: { requiresAdmin: true },
+      },
+      {
+        path: "/cart",
+        name: "Cart",
+        component: Cart,
+      },
+    ],
 		meta: { requiresAuth: true },
-	},
+  },
   {
 		path: '/auth',
 		name: 'Auth',
