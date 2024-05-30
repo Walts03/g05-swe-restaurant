@@ -44,6 +44,7 @@
   </div>
 </template>
 <script setup>
+import Footerview from "../components/Footer.vue";
 import { defineProps } from "vue";
 const props = defineProps({
   title: String,

@@ -61,9 +61,11 @@
       </ul>
     </div>
   </div>
+  <Footerview></Footerview>
 </template>
 <script setup>
 import FoodcardOrders from "./FoodcardOrders.vue";
+import Footerview from "../components/Footer.vue";
 import { ref, computed } from "vue";
 
 const foodItems = ref([
