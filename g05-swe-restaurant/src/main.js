@@ -2,10 +2,11 @@ import { createApp } from "vue";
 import "./style.css";
 import App from "./App.vue";
 import router from "./router";
-import Nav from "./components/Nav.vue";
-import Footer from "./components/Footer.vue";
+import Notifications from '@kyvg/vue3-notification'
 
 const app = createApp(App);
-app.use(router).mount("#app");
-app.component("Nav", Nav);
-app.component("Footer", Footer);
+
+app
+	.use(Notifications)
+	.use(router)
+	.mount("#app");

@@ -76,6 +76,7 @@
     </div>
   </div>
 </template>
+
 <script setup>
 import Foodcard from "../components/Foodcard.vue";
 import { ref, computed } from "vue";
