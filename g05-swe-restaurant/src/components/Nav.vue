@@ -16,7 +16,7 @@
           class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
           >My Restaurant</span
         >
-      </router-link to="/login">
+      </router-link to="/auth/login">
       <div class="flex items-center space-x-6 rtl:space-x-reverse">
         <a
           href="./login"

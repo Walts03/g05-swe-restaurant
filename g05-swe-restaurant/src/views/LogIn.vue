@@ -78,7 +78,7 @@ export default {
 	methods: {
 		async handleLogin() {
 			try {
-				const response = await fetch('http://127.0.0.1:8000/users/login', {	// Update this URL to match your actual backend URL
+				const response = await fetch('http://localhost:8000/users/login', {	// Update this URL to match your actual backend URL
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
@@ -87,11 +87,10 @@ export default {
 						email: this.email,
 						password: this.password
 					}),
-					credentials: 'include' // Include this to handle cookies
+					credentials: 'include',
 				});
 				
 				const result = await response.json();
-				console.log(result)
 				if (response.ok) {
 					this.$notify({
 						type: "success",

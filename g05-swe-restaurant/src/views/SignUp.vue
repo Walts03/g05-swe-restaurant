@@ -97,7 +97,7 @@ export default {
 	methods: {
 		async handleSignup() {
 			try {
-				const response = await fetch('http://127.0.0.1:8000/users/register', {	// Update this URL to match your actual backend URL
+				const response = await fetch('http://localhost:8000/users/register', {	// Update this URL to match your actual backend URL
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'
@@ -112,7 +112,6 @@ export default {
 				});
 				
 				const result = await response.json();
-				console.log(result)
 				if (response.ok) {
 					this.$notify({
 						type: "success",

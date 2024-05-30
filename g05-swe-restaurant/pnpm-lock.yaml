@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@kyvg/vue3-notification':
+        specifier: ^3.2.1
+        version: 3.2.1(vue@3.4.27)
       axios:
         specifier: ^1.7.2
         version: 1.7.2
@@ -228,6 +231,11 @@ packages:
 
   '@kurkle/color@0.3.2':
     resolution: {integrity: sha512-fuscdXJ9G1qb7W8VdHi+IwRqij3lBkosAm4ydQtEmbY58OzHXqQhvlxqEkoz0yssNVn38bcpRWgA9PP+OGoisw==}
+
+  '@kyvg/vue3-notification@3.2.1':
+    resolution: {integrity: sha512-qn4bCBBCxW0Ya+RmHXu2SYBVwGXWsAGdlDKqCqyLryaZTbtFXi32iSSLnuKjSUVxFqQRToFc6g1zp1XLTyHrvw==}
+    peerDependencies:
+      vue: ^3.0.0
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -1028,6 +1036,10 @@ snapshots:
       '@jridgewell/sourcemap-codec': 1.4.15
 
   '@kurkle/color@0.3.2': {}
+
+  '@kyvg/vue3-notification@3.2.1(vue@3.4.27)':
+    dependencies:
+      vue: 3.4.27
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
