@@ -13,7 +13,6 @@ import SignUp from "../views/SignUp.vue";
 
 import { notify } from "@kyvg/vue3-notification";
 
-
 const routes = [
   {
     path: "/",

@@ -34,7 +34,6 @@
                 >Home
               </router-link>
             </li>
-
             <li>
               <router-link
                 class="text-sm text-blue-600 dark:text-blue-500 hover:underline"
