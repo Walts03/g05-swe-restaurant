@@ -1,14 +1,5 @@
 <template>
-  <div class="container px-6 py-8 mx-auto">
-    <div
-      class="flex items-center justify-between text-sm tracking-widest uppercase"
-    >
-      <p
-        class="font-medium text-gray-700 dark:text-gray-700 focus:outline-none bg-transparent"
-      >
-        6 Items
-      </p>
-    </div>
+  <div class="container px-6 py-8 mx-auto lg:h-screen mt-20">
     <div
       class="grid grid-cols-1 gap-8 mt-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3"
     >

@@ -7,6 +7,7 @@
     </main>
 		<Footer/>
   </div>
+  <Footer></Footer>
 </template>
 <script setup>
 import Nav from "./Nav.vue";

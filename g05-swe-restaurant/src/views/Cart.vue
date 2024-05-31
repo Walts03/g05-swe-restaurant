@@ -83,7 +83,7 @@
             <button
               class="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600"
             >
-              Check out
+              Check Out
             </button>
           </div>
         </div>

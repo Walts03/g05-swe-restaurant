@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Default from "../components/Default.vue";
 import Homepage from "../views/Homepage.vue";
+
 import MenuItems from "../views/MenuItems.vue";
 import AddMenuItem from "../views/AddMenuItem.vue";
 import EditItem from "../views/EditItem.vue";
@@ -12,6 +13,9 @@ import LogIn from "../views/LogIn.vue";
 import SignUp from "../views/SignUp.vue";
 
 import { notify } from "@kyvg/vue3-notification";
+
+import Checkout from "../views/Checkout.vue";
+import Receipt from "../views/Receipt.vue";
 
 const routes = [
   {
@@ -51,6 +55,16 @@ const routes = [
         path: "/cart",
         name: "Cart",
         component: Cart,
+      },
+      {
+        path: "/checkout",
+        name: "Checkout",
+        component: Checkout,
+      },
+      {
+        path: "/receipt",
+        name: "Receipt",
+        component: Receipt,
       },
     ],
 		meta: { requiresAuth: true },
