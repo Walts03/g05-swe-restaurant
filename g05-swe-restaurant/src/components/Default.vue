@@ -1,13 +1,12 @@
 <template>
   <div class="bg-gray-50">
-		<notifications/>
+    <notifications />
     <Nav></Nav>
     <main>
       <router-view> </router-view>
     </main>
-		<Footer/>
+    <Footer />
   </div>
-  <Footer></Footer>
 </template>
 <script setup>
 import Nav from "./Nav.vue";

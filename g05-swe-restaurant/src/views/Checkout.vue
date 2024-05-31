@@ -35,50 +35,78 @@
 
           <form @submit.prevent="validateForm" class="mt-8" novalidate>
             <div class="grid gap-4 sm:grid-cols-2">
-              <input
-                v-model="cardholderName"
-                type="text"
-                placeholder="Name of card holder"
-                class="px-4 py-3.5 bg-white text-gray-800 w-full text-sm border rounded-md focus:border-blue-500 outline-none"
-                :class="{ 'border-red-500': errors.cardholderName }"
-                required
-              />
-              <input
-                v-model="postalCode"
-                type="text"
-                placeholder="Postal code"
-                class="px-4 py-3.5 bg-white text-gray-800 w-full text-sm border rounded-md focus:border-blue-500 outline-none"
-                :class="{ 'border-red-500': errors.postalCode }"
-                pattern="^\d{4,6}$"
-                required
-              />
-              <input
-                v-model="cardNumber"
-                type="text"
-                placeholder="Card number"
-                class="col-span-full px-4 py-3.5 bg-white text-gray-800 w-full text-sm border rounded-md focus:border-blue-500 outline-none"
-                :class="{ 'border-red-500': errors.cardNumber }"
-                pattern="^\d{16}$"
-                required
-              />
-              <input
-                v-model="expDate"
-                type="text"
-                placeholder="EXP (MM/YY)"
-                class="px-4 py-3.5 bg-white text-gray-800 w-full text-sm border rounded-md focus:border-blue-500 outline-none"
-                :class="{ 'border-red-500': errors.expDate }"
-                pattern="^(0[1-9]|1[0-2])\/\d{2}$"
-                required
-              />
-              <input
-                v-model="cvv"
-                type="text"
-                placeholder="CVV"
-                class="px-4 py-3.5 bg-white text-gray-800 w-full text-sm border rounded-md focus:border-blue-500 outline-none"
-                :class="{ 'border-red-500': errors.cvv }"
-                pattern="^\d{3,4}$"
-                required
-              />
+              <div>
+                <input
+                  v-model="cardholderName"
+                  type="text"
+                  placeholder="Name of card holder"
+                  class="px-4 py-3.5 bg-white text-gray-800 w-full text-sm border rounded-md focus:border-blue-500 outline-none"
+                  :class="{ 'border-red-500': errors.cardholderName }"
+                  required
+                />
+                <p
+                  v-if="errors.cardholderName"
+                  class="text-red-500 text-sm mt-1"
+                >
+                  Please enter the cardholder's name.
+                </p>
+              </div>
+              <div>
+                <input
+                  v-model="postalCode"
+                  type="text"
+                  placeholder="Postal code"
+                  class="px-4 py-3.5 bg-white text-gray-800 w-full text-sm border rounded-md focus:border-blue-500 outline-none"
+                  :class="{ 'border-red-500': errors.postalCode }"
+                  pattern="^\d{4,6}$"
+                  required
+                />
+                <p v-if="errors.postalCode" class="text-red-500 text-sm mt-1">
+                  Please enter a valid postal code.
+                </p>
+              </div>
+              <div class="col-span-full">
+                <input
+                  v-model="cardNumber"
+                  type="text"
+                  placeholder="Card number"
+                  class="px-4 py-3.5 bg-white text-gray-800 w-full text-sm border rounded-md focus:border-blue-500 outline-none"
+                  :class="{ 'border-red-500': errors.cardNumber }"
+                  pattern="^\d{16}$"
+                  required
+                />
+                <p v-if="errors.cardNumber" class="text-red-500 text-sm mt-1">
+                  Please enter a valid 16-digit card number.
+                </p>
+              </div>
+              <div>
+                <input
+                  v-model="expDate"
+                  type="text"
+                  placeholder="EXP (MM/YY)"
+                  class="px-4 py-3.5 bg-white text-gray-800 w-full text-sm border rounded-md focus:border-blue-500 outline-none"
+                  :class="{ 'border-red-500': errors.expDate }"
+                  pattern="^(0[1-9]|1[0-2])\/\d{2}$"
+                  required
+                />
+                <p v-if="errors.expDate" class="text-red-500 text-sm mt-1">
+                  Please enter a valid expiration date (MM/YY).
+                </p>
+              </div>
+              <div>
+                <input
+                  v-model="cvv"
+                  type="text"
+                  placeholder="CVV"
+                  class="px-4 py-3.5 bg-white text-gray-800 w-full text-sm border rounded-md focus:border-blue-500 outline-none"
+                  :class="{ 'border-red-500': errors.cvv }"
+                  pattern="^\d{3,4}$"
+                  required
+                />
+                <p v-if="errors.cvv" class="text-red-500 text-sm mt-1">
+                  Please enter a valid CVV (3 or 4 digits).
+                </p>
+              </div>
             </div>
             <button
               type="submit"
