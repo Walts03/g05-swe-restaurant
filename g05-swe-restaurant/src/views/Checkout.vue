@@ -33,7 +33,7 @@
             />
           </div>
 
-          <form @submit.prevent="validateForm" class="mt-8" novalidate>
+          <form @submit.prevent="submit" class="mt-8" novalidate>
             <div class="grid gap-4 sm:grid-cols-2">
               <div>
                 <input
@@ -173,19 +173,54 @@ export default {
         this.errors.cvv = true;
       }
 
-      if (Object.keys(this.errors).length === 0) {
-        alert("Form submitted successfully!");
+      if (Object.keys(this.errors).length !== 0) {
+				return false
       }
+			return true
     },
 		loadCart() {
 			const cart = JSON.parse(localStorage.getItem('cart') || '{}');
 			this.cartItems = Object.values(cart);
-			console.log(this.carItems)
 			this.total = this.cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+		},
+		submit: async function() {
+			if (!this.validateForm()) {
+				return
+			}
+			console.log(this.orderItemIds)
+			const response = await fetch("http://localhost:8000/orders", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ items: this.orderItemIds }),
+				credentials: "include",
+			});
+			const result = await response.json();
+			if (response.ok) {
+				this.$notify({
+					type: "success",
+					title: "Success",
+					text: "Creating Order successfully!",
+				});
+				localStorage.removeItem('cart') 
+				this.$router.push({ path: `/receipt/${result.id}` })
+			} else {
+				this.$notify({
+					type: "error",
+					title: "Error",
+					text: `Error: ${result.detail || "Signup failed"}`,
+				});
+			}
 		}
   },
 	mounted() {
 		this.loadCart();
+	},
+	computed: {
+		orderItemIds() {
+			return Object.values(this.cartItems).flatMap(item => Array(item.quantity).fill(item.id));
+		}
 	}
 };
 </script>

@@ -62,7 +62,7 @@ const routes = [
         component: Checkout,
       },
       {
-        path: "/receipt",
+				path: "/receipt/:id",
         name: "Receipt",
         component: Receipt,
       },

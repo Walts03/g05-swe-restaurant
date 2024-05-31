@@ -62,13 +62,6 @@
                 >Check Out</router-link
               >
             </li>
-            <li>
-              <router-link
-                class="text-sm text-blue-600 dark:text-blue-500 hover:underline"
-                to="/receipt"
-                >Receipt</router-link
-              >
-            </li>
 						<li>
               <a href="#" @click="signOut" class="text-sm text-blue-600 dark:text-blue-500 hover:underline">
                 Sign Out

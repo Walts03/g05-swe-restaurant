@@ -18,13 +18,13 @@
         </div>
         <div class="text-gray-700">
           <div class="font-bold text-xl mb-2">INVOICE</div>
-          <div class="text-sm">Date: 01/05/2023</div>
-          <div class="text-sm">Invoice #: INV12345</div>
+          <div class="text-sm">Date: {{ orderDate }}</div>
+          <div class="text-sm">Invoice #: {{ order.id }}</div>
         </div>
       </div>
       <div class="border-b-2 border-gray-300 pb-8 mb-8">
         <h2 class="text-2xl font-bold mb-4">Bill To:</h2>
-        <div class="text-gray-700 mb-2">John Doe</div>
+        <div class="text-gray-700 mb-2">{{ order?.customer?.name }}</div>
       </div>
       <table class="w-full text-left mb-8">
         <thead>
@@ -36,37 +36,19 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td class="py-4 text-gray-700">Product 1</td>
-            <td class="py-4 text-gray-700">1</td>
-            <td class="py-4 text-gray-700">$100.00</td>
-            <td class="py-4 text-gray-700">$100.00</td>
-          </tr>
-          <tr>
-            <td class="py-4 text-gray-700">Product 2</td>
-            <td class="py-4 text-gray-700">2</td>
-            <td class="py-4 text-gray-700">$50.00</td>
-            <td class="py-4 text-gray-700">$100.00</td>
-          </tr>
-          <tr>
-            <td class="py-4 text-gray-700">Product 3</td>
-            <td class="py-4 text-gray-700">3</td>
-            <td class="py-4 text-gray-700">$75.00</td>
-            <td class="py-4 text-gray-700">$225.00</td>
-          </tr>
+          <tr
+						v-for="item in orderItems"
+					>
+            <td class="py-4 text-gray-700">{{ item.name }}</td>
+            <td class="py-4 text-gray-700">{{ item.quantity }}</td>
+            <td class="py-4 text-gray-700">${{ item.price }}</td>
+            <td class="py-4 text-gray-700">${{ item.price * item.quantity }}</td>
+					</tr>
         </tbody>
       </table>
       <div class="flex justify-end mb-8">
-        <div class="text-gray-700 mr-2">Subtotal:</div>
-        <div class="text-gray-700">$425.00</div>
-      </div>
-      <div class="text-right mb-8">
-        <div class="text-gray-700 mr-2">Tax:</div>
-        <div class="text-gray-700">$25.50</div>
-      </div>
-      <div class="flex justify-end mb-8">
         <div class="text-gray-700 mr-2">Total:</div>
-        <div class="text-gray-700 font-bold text-xl">$450.50</div>
+        <div class="text-gray-700 font-bold text-xl">${{ total }}</div>
       </div>
       <div class="border-t-2 border-gray-300 pt-8 mb-8">
         <div class="text-gray-700 mb-2">
@@ -76,3 +58,64 @@
     </div>
   </div>
 </template>
+
+<script setup>
+import { useRouter, useRoute } from 'vue-router';
+import { ref, computed, onMounted } from 'vue';
+import { notify } from "@kyvg/vue3-notification";
+
+const order = ref({ items: [] })
+
+const orderDate = computed(() => (new Date(order.value.created_at)).toLocaleDateString('en-AU'))
+const orderItems = computed(() => {
+	let items = {}
+	order.value.items.forEach(item => {
+		item = item.item
+		if (items[item.name]) {
+			items[item.name].quantity++
+		} else {
+			items[item.name] = {
+				name: item.name,
+				price: item.price,
+				quantity: 1,
+			}
+		}
+	})
+	return Object.values(items);
+});
+const total = computed(() => {
+	let sum = 0;
+	order.value.items.forEach(item => {
+		sum += item.item.price
+	})
+	return sum
+});
+
+
+const router = useRouter()
+const route = useRoute()
+
+onMounted(async () => {
+	const response = await fetch(`http://localhost:8000/orders/${route.params.id}`, {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		credentials: "include",
+	});
+
+	const result = await response.json();
+	if (response.ok) {
+		order.value = result;
+		console.log(result);
+	} else {
+		notify({
+			type: "error",
+			title: "Error",
+			text: `Error: ${result.detail || "View receipt failed"}`,
+		});
+		router.push({ name: "Homepage" })
+	}
+})
+
+</script>

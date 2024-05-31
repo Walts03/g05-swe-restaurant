@@ -37,6 +37,7 @@
 import { defineProps, defineEmits } from "vue";
 
 const props = defineProps({
+  id: Number,
   name: String,
   price: Number,
   thumbnail: String,
@@ -45,6 +46,6 @@ const props = defineProps({
 const emits = defineEmits(['add-to-cart']);
 
 const addItem = () => {
-  emits('add-to-cart', { name: props.name, price: props.price, thumbnail: props.thumbnail });
+  emits('add-to-cart', { id: props.id, name: props.name, price: props.price, thumbnail: props.thumbnail });
 };
 </script>

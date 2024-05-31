@@ -6,6 +6,7 @@
       <Foodcard
         v-for="item in paginatedItems"
         :key="item.id"
+        :id="item.id"
         :name="item.name"
         :price="item.price"
 				:thumbnail="item.thumbnail"
@@ -57,52 +58,6 @@
 import Foodcard from "../components/Foodcard.vue";
 
 import { ref, computed, onMounted } from 'vue';
-
-// const foodItems = ref([
-//   {
-//     id: 1,
-//     name: "Pizza",
-//     price: 12,
-//     description: "A delicious cheese pizza with a crispy crusty.",
-//   },
-//   {
-//     id: 2,
-//     name: "Burger",
-//     price: 13,
-//     description: "Juicy beef burger with lettuce, tomato, and secret sauce.",
-//   },
-//   {
-//     id: 3,
-//     name: "Sushi",
-//     price: 14,
-//     description: "Fresh salmon sushi rolls with avocado and cucumber.",
-//   },
-//   {
-//     id: 4,
-//     name: "Sushi",
-//     price: 14,
-//     description: "Fresh salmon sushi rolls with avocado and cucumber.",
-//   },
-//   {
-//     id: 5,
-//     name: "Sushi",
-//     price: 14,
-//     description: "Fresh salmon sushi rolls with avocado and cucumber.",
-//   },
-//   {
-//     id: 6,
-//     name: "Sushi",
-//     price: 14,
-//     description: "Fresh salmon sushi rolls with avocado and cucumber.",
-//   },
-//   {
-//     id: 7,
-//     name: "Sushi",
-//     price: 14,
-//     description: "Fresh salmon sushi rolls with avocado and cucumber.",
-//   },
-//   // Add more items as needed
-// ]);
 const foodItems = ref([])
 
 const itemsPerPage = 6;
@@ -141,7 +96,7 @@ const addToCart = (item) => {
 	if (cart[item.name]) {
 		++cart[item.name].quantity;
 	} else {
-		cart[item.name] = { name: item.name, price: item.price, thumbnail: item.thumbnail, quantity: 1};
+		cart[item.name] = { id: item.id, name: item.name, price: item.price, thumbnail: item.thumbnail, quantity: 1 };
 	}
   localStorage.setItem('cart', JSON.stringify(cart));
 };
