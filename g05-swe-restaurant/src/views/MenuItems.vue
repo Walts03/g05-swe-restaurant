@@ -17,9 +17,10 @@
       <FoodcardOrders
         v-for="item in paginatedItems"
         :key="item.id"
-        :title="item.title"
+        :id="item.id"
+        :name="item.name"
         :price="item.price"
-        :description="item.description"
+        :thumbnail="item.thumbnail"
       ></FoodcardOrders>
     </div>
     <!-- Pagination Controls -->
@@ -62,58 +63,28 @@
     </div>
   </div>
 </template>
+
 <script setup>
 import FoodcardOrders from "../components/FoodcardOrders.vue";
-import { ref, computed } from "vue";
 
-const foodItems = ref([
-  {
-    id: 1,
-    title: "Pizza",
-    price: "12$",
-    description: "A delicious cheese pizza with a crispy crusty.",
-  },
-  {
-    id: 2,
-    title: "Burger",
-    price: "13$",
-    description: "Juicy beef burger with lettuce, tomato, and secret sauce.",
-  },
-  {
-    id: 3,
-    title: "Sushi",
-    price: "14$",
-    description: "Fresh salmon sushi rolls with avocado and cucumber.",
-  },
-  {
-    id: 4,
-    title: "Sushi",
-    price: "14$",
-    description: "Fresh salmon sushi rolls with avocado and cucumber.",
-  },
-  {
-    id: 5,
-    title: "Sushi",
-    price: "14$",
-    description: "Fresh salmon sushi rolls with avocado and cucumber.",
-  },
-  {
-    id: 6,
-    title: "Sushi",
-    price: "14$",
-    description: "Fresh salmon sushi rolls with avocado and cucumber.",
-  },
-  {
-    id: 7,
-    title: "Sushi",
-    price: "14$",
-    description: "Fresh salmon sushi rolls with avocado and cucumber.",
-  },
-  // Add more items as needed
-]);
+import { ref, computed, onMounted } from 'vue';
+const foodItems = ref([])
 
 const itemsPerPage = 6;
 const currentPage = ref(1);
+
+const loadFoodItems = async () => {
+  // foodItems.value = JSON.parse(localStorage.getItem('cart') || '{}');
+	const response = await fetch("http://localhost:8000/menu_items/", {
+		// Update this URL to match your actual backend URL
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		credentials: "include",
+	});
+	foodItems.value = await response.json();
+};
 
 const paginatedItems = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage;
@@ -129,4 +100,18 @@ function changePage(page) {
   if (page < 1 || page > totalPages.value) return;
   currentPage.value = page;
 }
+
+const addToCart = (item) => {
+  let cart = JSON.parse(localStorage.getItem('cart')) || {};
+	if (cart[item.name]) {
+		++cart[item.name].quantity;
+	} else {
+		cart[item.name] = { id: item.id, name: item.name, price: item.price, thumbnail: item.thumbnail, quantity: 1 };
+	}
+  localStorage.setItem('cart', JSON.stringify(cart));
+};
+
+onMounted(() => {
+	loadFoodItems()
+});
 </script>

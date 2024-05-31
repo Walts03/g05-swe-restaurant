@@ -34,21 +34,9 @@ const routes = [
         meta: { requiresAdmin: true },
       },
       {
-        path: "/menuitems",
-        name: "MenuItems",
-        component: MenuItems,
-        meta: { requiresAdmin: true },
-      },
-      {
         path: "/addmenu",
         name: "AddMenuItem",
         component: AddMenuItem,
-        meta: { requiresAdmin: true },
-      },
-      {
-        path: "/edititem",
-        name: "EditItem",
-        component: EditItem,
         meta: { requiresAdmin: true },
       },
       {

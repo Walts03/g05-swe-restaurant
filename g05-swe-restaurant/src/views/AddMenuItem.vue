@@ -7,7 +7,7 @@
         </h2>
         <p class="mt-2 text-lg leading-8 text-gray-600">Add Your Meals</p>
       </div>
-      <form action="#" method="POST" class="mx-auto mt-16 max-w-xl sm:mt-20">
+      <form @submit.prevent="submitForm" class="mx-auto mt-16 max-w-xl sm:mt-20">
         <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
           <div class="sm:col-span-2">
             <label
@@ -19,6 +19,7 @@
               <input
                 type="text"
                 name="name"
+								v-model="name"
                 id="name"
                 autocomplete="name"
                 class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset shadow-blue-500 ring-blue-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
@@ -35,6 +36,7 @@
               <input
                 type="price"
                 name="price"
+								v-model="price"
                 id="price"
                 autocomplete="price"
                 class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset shadow-blue-500 ring-blue-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-400 sm:text-sm sm:leading-6"
@@ -73,7 +75,7 @@
                     SVG, PNG, JPG or GIF (MAX. 800x400px)
                   </p>
                 </div>
-                <input id="dropzone-file" type="file" class="hidden" />
+                <input @change="handleFileUpload" id="dropzone-file" type="file" class="hidden" />
               </label>
             </div>
           </div>
@@ -90,3 +92,57 @@
     </div>
   </div>
 </template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { notify } from '@kyvg/vue3-notification';
+
+const route = useRoute();
+const router = useRouter();
+
+const name = ref('');
+const price = ref('');
+const thumbnail = ref('');
+
+const handleFileUpload = (event) => {
+  const file = event.target.files[0];
+  const reader = new FileReader();
+  reader.onloadend = () => {
+		thumbnail.value = reader.result.split(',')[1];
+  };
+  reader.readAsDataURL(file);
+};
+
+const submitForm = async () => {
+  const data = {
+    name: name.value,
+    price: price.value,
+    thumbnail: thumbnail.value
+  };
+
+  try {
+    const response = await fetch('http://localhost:8000/menu_items', {
+      method: 'POST',
+			headers: {
+				"Content-Type": "application/json",
+			},
+      body: JSON.stringify(data),
+			credentials: "include",
+    });
+
+		const result = await response.json();
+
+    if (!response.ok) {
+			console.log(result)
+      throw new Error(`Failed to submit the form: ${result.detail}`);
+    }
+
+    notify({ type: 'success', title: 'Success', text: 'Menu item added successfully!' });
+    router.push({ name: 'Homepage' });
+  } catch (error) {
+    notify({ type: 'error', title: 'Error', text: `Failed to add menu item:\n${error.message}` });
+  }
+};
+</script>
+

@@ -93,6 +93,7 @@ function changePage(page) {
 
 const addToCart = (item) => {
   let cart = JSON.parse(localStorage.getItem('cart')) || {};
+	console.log(cart)
 	if (cart[item.name]) {
 		++cart[item.name].quantity;
 	} else {

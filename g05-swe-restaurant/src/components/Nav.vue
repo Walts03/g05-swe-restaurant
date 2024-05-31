@@ -44,8 +44,8 @@
             <li>
               <router-link
                 class="text-sm text-blue-600 dark:text-blue-500 hover:underline"
-                to="/menuitems"
-                >Orders</router-link
+                to="/addmenu"
+                >MenuItems</router-link
               >
             </li>
             <li>
