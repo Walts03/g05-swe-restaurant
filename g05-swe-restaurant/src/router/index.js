@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Default from "../components/Default.vue";
 import Homepage from "../views/Homepage.vue";
-import MenuItems from "../components/MenuItems.vue";
-import AddMenuItem from "../components/AddMenuItem.vue";
-import EditItem from "../components/EditItem.vue";
-import Cart from "../components/Cart.vue";
+import MenuItems from "../views/MenuItems.vue";
+import AddMenuItem from "../views/AddMenuItem.vue";
+import EditItem from "../views/EditItem.vue";
+import Cart from "../views/Cart.vue";
 
 import Analytics from "../views/Analytics.vue";
 

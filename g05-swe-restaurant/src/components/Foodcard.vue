@@ -16,32 +16,37 @@
         ></div>
         <div class="p-4 sm:p-6">
           <p class="font-bold text-gray-700 text-[22px] leading-7 mb-1">
-            {{ title }}
+            {{ name }}
           </p>
           <div class="flex flex-row">
-            <p class="text-[17px] font-bold text-[#0FB478]">{{ price }}</p>
+            <p class="text-[17px] font-bold text-[#0FB478]">${{ price }}</p>
           </div>
           <p class="text-[#7C7C80] font-[15px] mt-6">
             {{ description }}
           </p>
 
-          <a
-            target="_blank"
-            href="foodiesapp://food/1001"
+          <button
+						@click="addItem"
             class="block mt-10 w-full px-4 py-3 font-medium tracking-wide text-center capitalize transition-colors duration-300 transform bg-[#FFC933] rounded-[14px] hover:bg-[#FFC933DD] focus:outline-none focus:ring focus:ring-teal-300 focus:ring-opacity-80"
           >
-            Order
-          </a>
+            Add Item
+          </button>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script setup>
-import { defineProps } from "vue";
+import { defineProps, defineEmits } from "vue";
+
 const props = defineProps({
-  title: String,
-  price: String,
-  description: String,
+  name: String,
+  price: Number,
 });
+
+const emits = defineEmits(['add-to-cart']);
+
+const addItem = () => {
+  emits('add-to-cart', { name: props.name, price: props.price });
+};
 </script>

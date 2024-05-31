@@ -8,16 +8,6 @@
       >
         6 Items
       </p>
-      <div class="flex items-center">
-        <p class="font-medium text-gray-500 dark:text-black">Sort</p>
-        <select
-          class="font-medium text-gray-700 bg-transparent dark:text-gray-500 focus:outline-none"
-        >
-          <option value="#">Recommended</option>
-          <option value="#">Size</option>
-          <option value="#">Price</option>
-        </select>
-      </div>
     </div>
     <div
       class="grid grid-cols-1 gap-8 mt-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3"
@@ -25,9 +15,9 @@
       <Foodcard
         v-for="item in paginatedItems"
         :key="item.id"
-        :title="item.title"
+        :name="item.name"
         :price="item.price"
-        :description="item.description"
+				@add-to-cart="addToCart"
       ></Foodcard>
     </div>
     <!-- Pagination Controls -->
@@ -69,55 +59,53 @@
       </ul>
     </div>
   </div>
-  <Footerview></Footerview>
 </template>
 
 <script setup>
 import Foodcard from "../components/Foodcard.vue";
-import Footerview from "../components/Footer.vue";
 import { ref, computed } from "vue";
 
 const foodItems = ref([
   {
     id: 1,
-    title: "Pizza",
-    price: "12$",
+    name: "Pizza",
+    price: 12,
     description: "A delicious cheese pizza with a crispy crusty.",
   },
   {
     id: 2,
-    title: "Burger",
-    price: "13$",
+    name: "Burger",
+    price: 13,
     description: "Juicy beef burger with lettuce, tomato, and secret sauce.",
   },
   {
     id: 3,
-    title: "Sushi",
-    price: "14$",
+    name: "Sushi",
+    price: 14,
     description: "Fresh salmon sushi rolls with avocado and cucumber.",
   },
   {
     id: 4,
-    title: "Sushi",
-    price: "14$",
+    name: "Sushi",
+    price: 14,
     description: "Fresh salmon sushi rolls with avocado and cucumber.",
   },
   {
     id: 5,
-    title: "Sushi",
-    price: "14$",
+    name: "Sushi",
+    price: 14,
     description: "Fresh salmon sushi rolls with avocado and cucumber.",
   },
   {
     id: 6,
-    title: "Sushi",
-    price: "14$",
+    name: "Sushi",
+    price: 14,
     description: "Fresh salmon sushi rolls with avocado and cucumber.",
   },
   {
     id: 7,
-    title: "Sushi",
-    price: "14$",
+    name: "Sushi",
+    price: 14,
     description: "Fresh salmon sushi rolls with avocado and cucumber.",
   },
   // Add more items as needed
@@ -140,4 +128,14 @@ function changePage(page) {
   if (page < 1 || page > totalPages.value) return;
   currentPage.value = page;
 }
+
+const addToCart = (item) => {
+  let cart = JSON.parse(localStorage.getItem('cart')) || {};
+	if (cart[item.name]) {
+		++cart[item.name].quantity;
+	} else {
+		cart[item.name] = { name: item.name, price: item.price, quantity: 1};
+	}
+  localStorage.setItem('cart', JSON.stringify(cart));
+};
 </script>
