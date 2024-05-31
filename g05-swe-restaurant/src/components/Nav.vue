@@ -15,8 +15,9 @@
           /> -->
           <span
             class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
-            >My Restaurant</span
           >
+						Relaxing Koala
+					</span>
         </router-link>
       </div>
     </nav>
