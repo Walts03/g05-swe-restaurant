@@ -8,6 +8,7 @@
         :key="item.id"
         :name="item.name"
         :price="item.price"
+				:thumbnail="item.thumbnail"
 				@add-to-cart="addToCart"
       ></Foodcard>
     </div>
@@ -54,56 +55,71 @@
 
 <script setup>
 import Foodcard from "../components/Foodcard.vue";
-import { ref, computed } from "vue";
 
-const foodItems = ref([
-  {
-    id: 1,
-    name: "Pizza",
-    price: 12,
-    description: "A delicious cheese pizza with a crispy crusty.",
-  },
-  {
-    id: 2,
-    name: "Burger",
-    price: 13,
-    description: "Juicy beef burger with lettuce, tomato, and secret sauce.",
-  },
-  {
-    id: 3,
-    name: "Sushi",
-    price: 14,
-    description: "Fresh salmon sushi rolls with avocado and cucumber.",
-  },
-  {
-    id: 4,
-    name: "Sushi",
-    price: 14,
-    description: "Fresh salmon sushi rolls with avocado and cucumber.",
-  },
-  {
-    id: 5,
-    name: "Sushi",
-    price: 14,
-    description: "Fresh salmon sushi rolls with avocado and cucumber.",
-  },
-  {
-    id: 6,
-    name: "Sushi",
-    price: 14,
-    description: "Fresh salmon sushi rolls with avocado and cucumber.",
-  },
-  {
-    id: 7,
-    name: "Sushi",
-    price: 14,
-    description: "Fresh salmon sushi rolls with avocado and cucumber.",
-  },
-  // Add more items as needed
-]);
+import { ref, computed, onMounted } from 'vue';
+
+// const foodItems = ref([
+//   {
+//     id: 1,
+//     name: "Pizza",
+//     price: 12,
+//     description: "A delicious cheese pizza with a crispy crusty.",
+//   },
+//   {
+//     id: 2,
+//     name: "Burger",
+//     price: 13,
+//     description: "Juicy beef burger with lettuce, tomato, and secret sauce.",
+//   },
+//   {
+//     id: 3,
+//     name: "Sushi",
+//     price: 14,
+//     description: "Fresh salmon sushi rolls with avocado and cucumber.",
+//   },
+//   {
+//     id: 4,
+//     name: "Sushi",
+//     price: 14,
+//     description: "Fresh salmon sushi rolls with avocado and cucumber.",
+//   },
+//   {
+//     id: 5,
+//     name: "Sushi",
+//     price: 14,
+//     description: "Fresh salmon sushi rolls with avocado and cucumber.",
+//   },
+//   {
+//     id: 6,
+//     name: "Sushi",
+//     price: 14,
+//     description: "Fresh salmon sushi rolls with avocado and cucumber.",
+//   },
+//   {
+//     id: 7,
+//     name: "Sushi",
+//     price: 14,
+//     description: "Fresh salmon sushi rolls with avocado and cucumber.",
+//   },
+//   // Add more items as needed
+// ]);
+const foodItems = ref([])
 
 const itemsPerPage = 6;
 const currentPage = ref(1);
+
+const loadFoodItems = async () => {
+  // foodItems.value = JSON.parse(localStorage.getItem('cart') || '{}');
+	const response = await fetch("http://localhost:8000/menu_items/", {
+		// Update this URL to match your actual backend URL
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		credentials: "include",
+	});
+	foodItems.value = await response.json();
+};
 
 const paginatedItems = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage;
@@ -125,8 +141,12 @@ const addToCart = (item) => {
 	if (cart[item.name]) {
 		++cart[item.name].quantity;
 	} else {
-		cart[item.name] = { name: item.name, price: item.price, quantity: 1};
+		cart[item.name] = { name: item.name, price: item.price, thumbnail: item.thumbnail, quantity: 1};
 	}
   localStorage.setItem('cart', JSON.stringify(cart));
 };
+
+onMounted(() => {
+	loadFoodItems()
+});
 </script>
