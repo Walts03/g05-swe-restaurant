@@ -5,6 +5,7 @@
       <router-view> </router-view>
     </main>
   </div>
+  <Footer></Footer>
 </template>
 <script setup>
 import Nav from "./Nav.vue";

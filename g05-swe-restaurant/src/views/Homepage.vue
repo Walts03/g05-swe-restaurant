@@ -1,24 +1,5 @@
 <template>
-  <div class="container px-6 py-8 mx-auto">
-    <div
-      class="flex items-center justify-between text-sm tracking-widest uppercase"
-    >
-      <p
-        class="font-medium text-gray-700 dark:text-gray-700 focus:outline-none bg-transparent"
-      >
-        6 Items
-      </p>
-      <div class="flex items-center">
-        <p class="font-medium text-gray-500 dark:text-black">Sort</p>
-        <select
-          class="font-medium text-gray-700 bg-transparent dark:text-gray-500 focus:outline-none"
-        >
-          <option value="#">Recommended</option>
-          <option value="#">Size</option>
-          <option value="#">Price</option>
-        </select>
-      </div>
-    </div>
+  <div class="container px-6 py-8 mx-auto lg:h-screen mt-20">
     <div
       class="grid grid-cols-1 gap-8 mt-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3"
     >
@@ -69,7 +50,6 @@
       </ul>
     </div>
   </div>
-  <Footerview></Footerview>
 </template>
 <script setup>
 import Foodcard from "../components/Foodcard.vue";

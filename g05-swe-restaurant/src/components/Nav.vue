@@ -15,7 +15,7 @@
           /> -->
           <span
             class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
-            >My Restaurant</span
+            >The Relaxing Koala</span
           >
         </router-link>
       </div>
@@ -54,6 +54,20 @@
                 class="text-sm text-blue-600 dark:text-blue-500 hover:underline"
                 to="/cart"
                 >Cart</router-link
+              >
+            </li>
+            <li>
+              <router-link
+                class="text-sm text-blue-600 dark:text-blue-500 hover:underline"
+                to="/checkout"
+                >Check Out</router-link
+              >
+            </li>
+            <li>
+              <router-link
+                class="text-sm text-blue-600 dark:text-blue-500 hover:underline"
+                to="/receipt"
+                >Receipt</router-link
               >
             </li>
           </ul>

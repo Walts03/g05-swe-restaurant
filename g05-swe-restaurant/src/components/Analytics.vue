@@ -1,5 +1,5 @@
 <template>
-  <div class="analytics">
+  <div class="analytics lg:h-screen">
     <h1>Analytics</h1>
     <div class="controls">
       <div class="dropdown">
@@ -13,7 +13,11 @@
       <div class="dropdown">
         <label for="time-range-select">Select Time Range</label>
         <select id="time-range-select" v-model="selectedTimeRange">
-          <option v-for="range in timeRanges" :key="range.value" :value="range.value">
+          <option
+            v-for="range in timeRanges"
+            :key="range.value"
+            :value="range.value"
+          >
             {{ range.text }}
           </option>
         </select>
@@ -28,38 +32,40 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
-import Chart from 'chart.js/auto';
-import axios from 'axios';
-import { format, subDays } from 'date-fns';
+import { ref, onMounted } from "vue";
+import Chart from "chart.js/auto";
+import axios from "axios";
+import { format, subDays } from "date-fns";
 
 export default {
-  name: 'Analytics',
+  name: "Analytics",
   setup() {
-    const selectedType = ref('regularCustomers');
-    const selectedTimeRange = ref('30days');
+    const selectedType = ref("regularCustomers");
+    const selectedTimeRange = ref("30days");
     const chartInstance = ref(null);
-    
+
     const types = ref([
-      { value: 'regularCustomers', text: 'Most Regular Customers' },
-      { value: 'bestSellerProducts', text: 'Best Seller Products' },
-      { value: 'orderNumbers', text: 'Order Numbers in a Time Range' },
+      { value: "regularCustomers", text: "Most Regular Customers" },
+      { value: "bestSellerProducts", text: "Best Seller Products" },
+      { value: "orderNumbers", text: "Order Numbers in a Time Range" },
     ]);
-    
+
     const timeRanges = ref([
-      { value: '30days', text: 'Past 30 Days' },
-      { value: '90days', text: 'Past 90 Days' },
-      { value: '180days', text: 'Past 180 Days' },
+      { value: "30days", text: "Past 30 Days" },
+      { value: "90days", text: "Past 90 Days" },
+      { value: "180days", text: "Past 180 Days" },
     ]);
-    
+
     const fetchData = async () => {
       let data;
       try {
-        const response = await axios.get(`http://localhost:8000/api/orders`, { withCredentials: true });
+        const response = await axios.get(`http://localhost:8000/api/orders`, {
+          withCredentials: true,
+        });
         const orders = response.data;
-        if (selectedType.value === 'regularCustomers') {
+        if (selectedType.value === "regularCustomers") {
           data = generateCustomerData(orders);
-        } else if (selectedType.value === 'bestSellerProducts') {
+        } else if (selectedType.value === "bestSellerProducts") {
           data = generateProductData(orders);
         } else {
           data = generateOrderData(orders);
@@ -72,30 +78,34 @@ export default {
 
     const generateCustomerData = (orders) => {
       const customerData = {};
-      orders.forEach(order => {
+      orders.forEach((order) => {
         if (customerData[order.customer_id]) {
           customerData[order.customer_id] += 1;
         } else {
           customerData[order.customer_id] = 1;
         }
       });
-      const sortedCustomers = Object.entries(customerData).sort((a, b) => b[1] - a[1]).slice(0, 10);
+      const sortedCustomers = Object.entries(customerData)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 10);
       return {
-        labels: sortedCustomers.map(item => `Customer ${item[0]}`),
-        datasets: [{
-          label: 'Order Numbers',
-          data: sortedCustomers.map(item => item[1]),
-          backgroundColor: 'rgba(75, 192, 192, 0.2)',
-          borderColor: 'rgba(75, 192, 192, 1)',
-          borderWidth: 1
-        }]
+        labels: sortedCustomers.map((item) => `Customer ${item[0]}`),
+        datasets: [
+          {
+            label: "Order Numbers",
+            data: sortedCustomers.map((item) => item[1]),
+            backgroundColor: "rgba(75, 192, 192, 0.2)",
+            borderColor: "rgba(75, 192, 192, 1)",
+            borderWidth: 1,
+          },
+        ],
       };
     };
 
     const generateProductData = (orders) => {
       const productData = {};
-      orders.forEach(order => {
-        order.items.forEach(item => {
+      orders.forEach((order) => {
+        order.items.forEach((item) => {
           if (productData[item.item.id]) {
             productData[item.item.id] += 1;
           } else {
@@ -103,24 +113,28 @@ export default {
           }
         });
       });
-      const sortedProducts = Object.entries(productData).sort((a, b) => b[1] - a[1]).slice(0, 10);
+      const sortedProducts = Object.entries(productData)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 10);
       return {
-        labels: sortedProducts.map(item => `Product ${item[0]}`),
-        datasets: [{
-          label: 'Sales Numbers',
-          data: sortedProducts.map(item => item[1]),
-          backgroundColor: 'rgba(153, 102, 255, 0.2)',
-          borderColor: 'rgba(153, 102, 255, 1)',
-          borderWidth: 1
-        }]
+        labels: sortedProducts.map((item) => `Product ${item[0]}`),
+        datasets: [
+          {
+            label: "Sales Numbers",
+            data: sortedProducts.map((item) => item[1]),
+            backgroundColor: "rgba(153, 102, 255, 0.2)",
+            borderColor: "rgba(153, 102, 255, 1)",
+            borderWidth: 1,
+          },
+        ],
       };
     };
 
     const generateOrderData = (orders) => {
       let interval;
-      if (selectedTimeRange.value === '30days') {
+      if (selectedTimeRange.value === "30days") {
         interval = 1; // 1 day interval
-      } else if (selectedTimeRange.value === '90days') {
+      } else if (selectedTimeRange.value === "90days") {
         interval = 3; // 3 days interval
       } else {
         interval = 6; // 6 days interval
@@ -133,15 +147,18 @@ export default {
       const dateRanges = [];
       const orderCounts = [];
       for (let d = startDate; d <= endDate; d = subDays(d, -interval)) {
-        dateRanges.push(format(d, 'yyyy-MM-dd'));
+        dateRanges.push(format(d, "yyyy-MM-dd"));
         orderCounts.push(0);
       }
 
       // Aggregate orders
-      orders.forEach(order => {
+      orders.forEach((order) => {
         const orderDate = new Date(order.created_at);
         for (let i = 0; i < dateRanges.length - 1; i++) {
-          if (orderDate >= new Date(dateRanges[i]) && orderDate < new Date(dateRanges[i + 1])) {
+          if (
+            orderDate >= new Date(dateRanges[i]) &&
+            orderDate < new Date(dateRanges[i + 1])
+          ) {
             orderCounts[i] += 1;
             break;
           }
@@ -150,46 +167,48 @@ export default {
 
       return {
         labels: dateRanges.slice(0, -1), // Exclude the last label
-        datasets: [{
-          label: 'Order Numbers',
-          data: orderCounts,
-          backgroundColor: 'rgba(255, 159, 64, 0.2)',
-          borderColor: 'rgba(255, 159, 64, 1)',
-          borderWidth: 1
-        }]
+        datasets: [
+          {
+            label: "Order Numbers",
+            data: orderCounts,
+            backgroundColor: "rgba(255, 159, 64, 0.2)",
+            borderColor: "rgba(255, 159, 64, 1)",
+            borderWidth: 1,
+          },
+        ],
       };
     };
 
     const updateChart = (data) => {
-      const ctx = document.getElementById('analytics-chart').getContext('2d');
+      const ctx = document.getElementById("analytics-chart").getContext("2d");
       if (chartInstance.value) {
         chartInstance.value.destroy();
       }
       chartInstance.value = new Chart(ctx, {
-        type: 'bar',
+        type: "bar",
         data,
         options: {
           scales: {
             y: {
-              beginAtZero: true
-            }
-          }
-        }
+              beginAtZero: true,
+            },
+          },
+        },
       });
     };
 
     onMounted(() => {
       fetchData();
     });
-    
+
     return {
       selectedType,
       selectedTimeRange,
       types,
       timeRanges,
-      fetchData
+      fetchData,
     };
-  }
+  },
 };
 </script>
 
@@ -209,7 +228,8 @@ export default {
   flex-direction: column;
 }
 
-#type-select, #time-range-select {
+#type-select,
+#time-range-select {
   padding: 8px;
   border-radius: 5px;
   border: 1px solid #ccc;
@@ -222,7 +242,7 @@ export default {
   padding: 10px 20px;
   font-size: 16px;
   color: #fff;
-  background-color: #007BFF;
+  background-color: #007bff;
   border: none;
   border-radius: 5px;
   cursor: pointer;

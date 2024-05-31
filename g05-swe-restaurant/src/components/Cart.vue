@@ -3,7 +3,7 @@
   <div class="flex flex-col min-h-screen">
     <div class="flex-grow">
       <!-- Your main content here -->
-      <div class="h-screen bg-gray-100 pt-20">
+      <div class="bg-gray-100 pt-20">
         <h1 class="mb-10 text-center text-2xl font-bold">Cart Items</h1>
         <div
           class="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0"
@@ -93,18 +93,10 @@
             <button
               class="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600"
             >
-              Check out
+              Check Out
             </button>
           </div>
         </div>
-        <footer class="bg-white dark:bg-gray-900">
-          <div class="container px-6 py-12 mx-auto">
-            <span
-              class="block text-sm text-gray-500 sm:text-center dark:text-gray-400"
-              >© 2024 G05 All Rights Reserved.</span
-            >
-          </div>
-        </footer>
       </div>
     </div>
   </div>

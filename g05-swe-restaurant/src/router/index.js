@@ -6,6 +6,8 @@ import MenuItems from "../components/MenuItems.vue";
 import AddMenuItem from "../components/AddMenuItem.vue";
 import EditItem from "../components/EditItem.vue";
 import Cart from "../components/Cart.vue";
+import Checkout from "../views/Checkout.vue";
+import Receipt from "../views/Receipt.vue";
 
 const routes = [
   {
@@ -41,6 +43,16 @@ const routes = [
         path: "/cart",
         name: "Cart",
         component: Cart,
+      },
+      {
+        path: "/checkout",
+        name: "Checkout",
+        component: Checkout,
+      },
+      {
+        path: "/receipt",
+        name: "Receipt",
+        component: Receipt,
       },
     ],
   },
