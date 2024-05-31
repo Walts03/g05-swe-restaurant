@@ -92,21 +92,17 @@
         <div class="bg-white p-6 rounded-md">
           <h3 class="text-lg font-bold text-gray-800">Summary</h3>
           <ul class="text-gray-800 mt-4 space-y-2">
-            <li class="flex justify-between text-sm">
-              Product 1 <span class="font-bold">$100.00</span>
-            </li>
-            <li class="flex justify-between text-sm">
-              Product 2 <span class="font-bold">$50.00</span>
-            </li>
-            <li class="flex justify-between text-sm">
-              Product 3 <span class="font-bold">$75.00</span>
-            </li>
-            <li class="flex justify-between text-sm">
-              Tax <span class="font-bold">$25.00</span>
+            <li
+              v-for="item in cartItems"
+              :key="item.name"
+              class="flex justify-between text-sm"
+            >
+              {{ item.name }} (x{{ item.quantity }})
+              <span class="font-bold">${{ item.price }}</span>
             </li>
             <hr class="my-2" />
             <li class="flex justify-between text-base font-bold">
-              Total <span>$450.50</span>
+              Total <span>${{ total }}</span>
             </li>
           </ul>
         </div>
@@ -125,6 +121,8 @@ export default {
       expDate: "",
       cvv: "",
       errors: {},
+			cartItems: [],
+      total: 0
     };
   },
   methods: {
@@ -151,7 +149,16 @@ export default {
         alert("Form submitted successfully!");
       }
     },
+		loadCart() {
+			const cart = JSON.parse(localStorage.getItem('cart') || '{}');
+			this.cartItems = Object.values(cart);
+			console.log(this.carItems)
+			this.total = this.cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+		}
   },
+	mounted() {
+		this.loadCart();
+	}
 };
 </script>
 

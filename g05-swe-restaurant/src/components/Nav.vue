@@ -30,8 +30,7 @@
             <li>
               <router-link
                 to="/"
-                class="text-gray-900 dark:text-white hover:underline"
-                aria-current="page"
+                class="text-gray-900 dark:text-blue-500 hover:underline"
                 >Home
               </router-link>
             </li>
