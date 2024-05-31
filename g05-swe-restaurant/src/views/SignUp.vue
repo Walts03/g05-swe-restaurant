@@ -1,3 +1,4 @@
+```vue
 <template>
   <section class="bg-gray-900">
     <div
@@ -21,13 +22,13 @@
                 >Your Name</label
               >
               <input
-                type="name"
+                type="text"
                 name="name"
                 id="name"
                 v-model="name"
                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="John Doe"
-                required=""
+                required
               />
             </div>
             <!-- mail -->
@@ -44,9 +45,12 @@
                 v-model="email"
                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="name@company.com"
-                required=""
+                required
               />
             </div>
+            <p v-if="errors.email" class="text-red-500 text-xs italic">
+              {{ errors.email }}
+            </p>
             <!-- pwd -->
             <div>
               <label
@@ -64,7 +68,32 @@
                 required
               />
             </div>
-
+            <p v-if="errors.password" class="text-red-500 text-xs italic">
+              {{ errors.password }}
+            </p>
+            <!-- confirm pwd -->
+            <div>
+              <label
+                for="confirm-password"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Confirm password</label
+              >
+              <input
+                type="password"
+                name="confirm-password"
+                id="confirm-password"
+                placeholder="••••••••"
+                v-model="confirmPassword"
+                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                required
+              />
+            </div>
+            <p
+              v-if="errors.confirmPassword"
+              class="text-red-500 text-xs italic"
+            >
+              {{ errors.confirmPassword }}
+            </p>
             <!-- button -->
             <button
               type="submit"
@@ -95,15 +124,24 @@ export default {
   name: "SignUpPage",
   data() {
     return {
+      name: "",
       email: "",
       password: "",
+      confirmPassword: "",
+      errors: {},
     };
   },
   methods: {
     async handleSignup() {
+      this.errors = {};
+
+      if (this.password !== this.confirmPassword) {
+        this.errors.confirmPassword = "Passwords do not match";
+        return;
+      }
+
       try {
         const response = await fetch("http://localhost:8000/users/register", {
-          // Update this URL to match your actual backend URL
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -114,7 +152,7 @@ export default {
             password: this.password,
             type: "regular_user",
           }),
-          credentials: "include", // Include this to handle cookies
+          credentials: "include",
         });
 
         const result = await response.json();
@@ -126,6 +164,7 @@ export default {
           });
           this.$router.push({ name: "Login" });
         } else {
+          this.errors = result.errors || {};
           this.$notify({
             type: "error",
             title: "Error",
@@ -136,10 +175,11 @@ export default {
         this.$notify({
           type: "error",
           title: "Error",
-          text: `Error: ${error.message}'}`,
+          text: `Error: ${error.message}`,
         });
       }
     },
   },
 };
 </script>
+```
