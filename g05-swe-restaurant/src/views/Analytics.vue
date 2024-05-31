@@ -30,8 +30,8 @@
 <script>
 import { ref, onMounted } from 'vue';
 import Chart from 'chart.js/auto';
-import axios from 'axios';
 import { format, subDays } from 'date-fns';
+import { notify } from "@kyvg/vue3-notification";
 
 export default {
 	name: 'Analytics',
@@ -53,21 +53,40 @@ export default {
 		]);
 		
 		const fetchData = async () => {
-			let data;
-			try {
-				const response = await axios.get(`http://localhost:8000/api/orders`, { withCredentials: true });
-				const orders = response.data;
-				if (selectedType.value === 'regularCustomers') {
-					data = generateCustomerData(orders);
-				} else if (selectedType.value === 'bestSellerProducts') {
-					data = generateProductData(orders);
+      try {
+				let data;
+				const response = await fetch(`http://localhost:8000/orders`, { 
+					method: "GET",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					credentials: "include",
+				});
+				const result = await response.json();
+				if (response.ok) {
+					const orders = result
+					if (selectedType.value === 'regularCustomers') {
+						data = generateCustomerData(orders);
+					} else if (selectedType.value === 'bestSellerProducts') {
+						data = generateProductData(orders);
+					} else {
+						data = generateOrderData(orders);
+					}
+					updateChart(data);
 				} else {
-					data = generateOrderData(orders);
+					notify({
+						type: "error",
+						title: "Error",
+						text: `Error: ${result.detail || "Get Order failed"}`,
+					});
 				}
-				updateChart(data);
-			} catch (error) {
-				console.error("Error fetching data:", error);
-			}
+      } catch (error) {
+        notify({
+          type: "error",
+          title: "Error",
+          text: `Error: ${error.message}'}`,
+        });
+      }
 		};
 
 		const generateCustomerData = (orders) => {
@@ -126,7 +145,8 @@ export default {
 				interval = 6; // 6 days interval
 			}
 
-			const endDate = new Date();
+			let endDate = new Date();
+			endDate.setDate(endDate.getDate() + 1)
 			const startDate = subDays(endDate, parseInt(selectedTimeRange.value));
 
 			// Initialize date ranges and counts
