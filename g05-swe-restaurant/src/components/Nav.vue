@@ -55,10 +55,36 @@
                 >Cart</router-link
               >
             </li>
+            <li>
+              <a href="#" @click="signOut" class="text-sm text-blue-600 dark:text-blue-500 hover:underline">
+                Sign Out
+              </a>
+            </li>
           </ul>
         </div>
       </div>
     </nav>
   </div>
 </template>
-<script setup></script>
+<script setup>
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const signOut = async () => {
+  try {
+    const response = await fetch('http://localhost:8000/users/signout', {
+      method: 'GET',
+      credentials: 'include'
+    })
+
+    if (response.ok) {
+      router.push('/auth/login')
+    } else {
+      console.error('Sign out failed')
+    }
+  } catch (error) {
+    console.error('Error during sign out', error)
+  }
+}
+</script>
